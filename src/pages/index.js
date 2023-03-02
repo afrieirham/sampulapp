@@ -1,34 +1,61 @@
-import Head from "next/head";
-import AddTransactionModal from "../components/AddTransactionModal";
-import TransactionItem from "../components/TransactionItem";
+import { Button, Input, VStack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import Dashboard from "../components/Dashboard";
 
-export default function Home() {
+function Home() {
+  const [auth, setAuth] = useState(false);
+  const [input, setInput] = useState("");
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const raw = await fetch("/api/auth?key=" + input);
+    const { status } = await raw.json();
+
+    if (status) {
+      localStorage.setItem("sampul-key", input);
+      setAuth(true);
+    }
+
+    setInput("");
+  };
+
+  useEffect(() => {
+    const verify = async () => {
+      const savedKey = localStorage.getItem("sampul-key");
+      const raw = await fetch("/api/auth?key=" + savedKey);
+      const { status } = await raw.json();
+
+      if (status) {
+        setAuth(true);
+      } else {
+        localStorage.removeItem("sampul-key");
+      }
+    };
+    verify();
+  }, []);
+
+  if (auth) return <Dashboard />;
+
   return (
-    <div className="relative h-[100vh] bg-slate-100">
-      <Head>
-        <title>Sampul</title>
-        <meta name="description" content="Expense tracker app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="flex border-b-[1px] bg-white p-4">
-        <p className="text-slate-900">👋 Hello Afrie</p>
-      </div>
-      <div className="flex flex-col bg-slate-100 pb-32">
-        <p className="px-4 pt-4 pb-1 font-bold">Latest Transactions</p>
-        {[
-          1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2,
-          3, 2, 1, 2, 3,
-        ].map((n) => (
-          <TransactionItem />
-        ))}
-      </div>
-      <AddTransactionModal />
-      <div className="fixed bottom-0 flex w-full justify-evenly border-t-[1px] bg-white px-4">
-        <button className="w-full p-4">Budgets</button>
-        <button className="w-full p-4">Transactions</button>
-        <button className="w-full p-4">Accounts</button>
-      </div>
-    </div>
+    <VStack
+      as="form"
+      h="100vh"
+      w="100vw"
+      justifyContent="center"
+      px="4"
+      onSubmit={onSubmit}
+    >
+      <Input
+        name="key"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <Button type="submit" w="full">
+        Submit
+      </Button>
+    </VStack>
   );
 }
+
+export default Home;
