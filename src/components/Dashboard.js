@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [view, setView] = useState("budget");
   const [source, setSource] = useState(budgets);
 
-  const { data, isLoading } = useSWR("/api/hello", fetcher);
+  const { data, isLoading } = useSWR("/api/read", fetcher);
 
   useEffect(() => {
     if (view === "budget") {
