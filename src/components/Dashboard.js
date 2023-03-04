@@ -68,7 +68,7 @@ export default function Dashboard() {
           <option value="budget">Budget</option>
           <option value="account">Account</option>
         </Select>
-        <Table variant="striped" mt="4">
+        <Table variant="striped" mt="4" mb="16">
           <Thead>
             <Tr>
               <Th textTransform="uppercase">{view}</Th>
