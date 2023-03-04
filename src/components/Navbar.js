@@ -1,14 +1,15 @@
-import { Box, Flex, Button } from "@chakra-ui/react";
-import Link from "next/link";
 import React, { useContext } from "react";
+import Link from "next/link";
+import { Box, Button, HStack } from "@chakra-ui/react";
+
 import { AuthContext } from "../context/auth";
 
 function Navbar() {
   const { auth } = useContext(AuthContext);
   if (!auth) return null;
   return (
-    <Box position="fixed" bottom="0" w="full" bg="messenger.500" p="2">
-      <Flex
+    <Box position="fixed" bottom="0" w="full" p="2" pb="6" bg="black">
+      <HStack
         maxW="sm"
         mx="auto"
         justifyContent="space-evenly"
@@ -17,24 +18,28 @@ function Navbar() {
         <Button
           as={Link}
           href="/"
-          color="white"
           variant="ghost"
           w="full"
-          colorScheme="messenger"
+          color="white"
+          _hover={{ color: "black", bg: "gray.50" }}
+          _active={{ color: "black", bg: "gray.50" }}
+          size="lg"
         >
           Home
         </Button>
         <Button
           as={Link}
           href="/add"
-          color="white"
           variant="ghost"
           w="full"
-          colorScheme="messenger"
+          color="white"
+          _hover={{ color: "black", bg: "gray.50" }}
+          _active={{ color: "black", bg: "gray.50" }}
+          size="lg"
         >
           Add
         </Button>
-      </Flex>
+      </HStack>
     </Box>
   );
 }
