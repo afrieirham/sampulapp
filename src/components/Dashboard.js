@@ -15,49 +15,9 @@ import Head from "next/head";
 import useSWR from "swr";
 import { round } from "lodash";
 import { useEffect, useState } from "react";
+import { accounts, budgets } from "../constants";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
-
-const accounts = [
-  "ASB",
-  "BigPay",
-  "Luno",
-  "MAE",
-  "Maybank Savings Account",
-  "TnG GOInvest",
-  "Wahed",
-  "Cash",
-  "EPF",
-  "Public Bank Visa",
-  "Public Bank Mastercard",
-  "Grab PayLater",
-  "Tabung Haji",
-];
-
-const budgets = [
-  "Bills",
-  "Buffer",
-  "Food",
-  "Shopping",
-  "Activities",
-  "Dates",
-  "Car",
-  "Motor",
-  "Self-care",
-  "Education",
-  "Renewals",
-  "Vacation",
-  "Raya",
-  "Taxes",
-  "Giving",
-  "Gifts",
-  "Marriage",
-  "Car Deposit",
-  "Emergency",
-  "RM100k by 30",
-  "EPF",
-  "Tabung Haji",
-];
 
 export default function Dashboard() {
   const [view, setView] = useState("budget");
